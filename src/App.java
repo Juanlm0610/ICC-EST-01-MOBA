@@ -2,38 +2,41 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        MetodoOrdenamiento mO = new MetodoOrdenamiento();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese el Tamanio del arreglo : ");
+        System.out.println("Ingrese el tamaño del arreglo: ");
+        
+        
+        leerEnteroValido(scanner, false); // Llama a la función después de obtener el tamaño
+    }
 
-        int tam = scanner.nextInt();
+    public static int leerEnteroValido(Scanner s, boolean numerosNegativos) {
+        MetodoOrdenamiento mO = new MetodoOrdenamiento();
+        int num = 0;
 
-        if(tam<=0){
-            System.out.println("El tamanio Ingresado es invalido, Adios!");
-
-        }
-
-        do{
-            while (!scanner.hasNextInt()) {
-                System.out.println("Ingrese un entero valido, Tonto >:c ");
-                scanner.next();
-                
+        do {
+            System.out.println("Ingrese el tamaño que sea positivo");
+            while (!s.hasNextInt()) {
+                System.out.println("Error: El valor ingresado no es valido");
+                s.next();
             }
-            tam = scanner.nextInt();
-            if(tam<=0){
-                System.out.println("El tamanio Ingresado es invalido, Adios!");
+            num = s.nextInt();
+            if (num <= 0 || numerosNegativos) {
+                System.out.println("El tamaño debe ser un entero positivo");
+            }
+        } while (num <= 0);
+
+        int[] arreglo = new int[num];
+
+        for (int i = 0; i < num; i++) {
+            System.out.print("Introduce el elemento " + (i + 1) + ": ");
+            arreglo[i] = s.nextInt();
         }
-    }while(tam <= 0);
 
-       int[] arreglo = new int[tam];
+        mO.printArr(arreglo);
+        mO.sortBubbleAva(arreglo);
+        mO.printArr(arreglo);
+        s.close();
 
-       for (int i = 0 ; i<tam ; i++){
-        System.out.println("INgrese el numero de la poscision " + (i+1) + " : ");
-        arreglo[i] = scanner.nextInt();
-       }
-
-       mO.printArr(arreglo);
-       mO.sortBubbleAva(arreglo);
-       mO.printArr(arreglo);
-}
+        return num;
+    }
 }
